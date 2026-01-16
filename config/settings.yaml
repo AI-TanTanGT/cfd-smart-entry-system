@@ -1,0 +1,77 @@
+# CFD Smart Entry System Configuration
+
+# MT5 Connection Settings
+mt5:
+  server: "Demo-Server"
+  timeout: 60000
+  retry_attempts: 3
+  retry_delay: 1.0
+
+# Trading Parameters
+trading:
+  symbols:
+    - "USDJPY"
+    - "EURUSD"
+    - "GBPUSD"
+    - "GOLD"
+    - "US30"
+  default_lot_size: 0.01
+  max_lot_size: 1.0
+  max_positions: 5
+  magic_number: 123456
+
+# Slippage Reduction Settings
+slippage:
+  max_slippage_pips: 3.0
+  execution_timeout_ms: 500
+  retry_on_requote: true
+  price_tolerance_pips: 1.0
+  tier_levels:
+    - name: "optimal"
+      spread_threshold: 1.0
+      volatility_threshold: 0.5
+    - name: "acceptable"
+      spread_threshold: 2.0
+      volatility_threshold: 1.0
+    - name: "caution"
+      spread_threshold: 3.0
+      volatility_threshold: 1.5
+
+# AI Signal Settings
+ai_signal:
+  model_type: "ensemble"
+  confidence_threshold: 0.65
+  features:
+    - "price_momentum"
+    - "volatility"
+    - "trend_strength"
+    - "support_resistance"
+    - "volume_analysis"
+  lookback_periods:
+    short: 14
+    medium: 50
+    long: 200
+
+# Voice Input Settings
+voice:
+  enabled: true
+  language: "ja-JP"
+  commands:
+    buy: ["買い", "ロング", "buy", "long"]
+    sell: ["売り", "ショート", "sell", "short"]
+    close: ["決済", "クローズ", "close"]
+    status: ["状況", "ステータス", "status"]
+
+# Risk Management
+risk:
+  max_daily_loss_percent: 5.0
+  max_position_risk_percent: 2.0
+  stop_loss_pips: 50
+  take_profit_pips: 100
+
+# Logging Settings
+logging:
+  level: "INFO"
+  file_path: "logs/cfd_smart_entry.log"
+  rotation: "1 day"
+  retention: "7 days"
