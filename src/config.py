@@ -46,10 +46,19 @@ class Config:
             self._config = self._get_defaults()
             return
 
-        with open(path, encoding="utf-8") as f:
-            self._config = yaml.safe_load(f) or {}
-
-        logger.info(f"Configuration loaded from {config_path}")
+        try:
+            with open(path, encoding="utf-8") as f:
+                self._config = yaml.safe_load(f) or {}
+            logger.info(f"Configuration loaded from {config_path}")
+        except yaml.YAMLError as e:
+            logger.error(f"Failed to parse YAML config file {config_path}: {e}")
+            self._config = self._get_defaults()
+        except PermissionError as e:
+            logger.error(f"Permission denied reading config file {config_path}: {e}")
+            self._config = self._get_defaults()
+        except OSError as e:
+            logger.error(f"Error reading config file {config_path}: {e}")
+            self._config = self._get_defaults()
 
     def _get_defaults(self) -> dict[str, Any]:
         """Get default configuration values.

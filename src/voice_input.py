@@ -1,7 +1,22 @@
 """Voice input handler for CFD Smart Entry System.
 
 This module implements voice recognition for hands-free
-trading command input in Japanese and English.
+trading command input in Japanese (ja-JP) and English (en-US).
+
+Supported commands:
+- Buy/Long (買い/ロング or buy/long)
+- Sell/Short (売り/ショート or sell/short)
+- Close (決済 or close)
+- Close All (全決済 or close all)
+- Status (状況 or status)
+- Stop (停止 or stop)
+
+Supported symbols:
+- USDJPY (ドル円, dollar yen)
+- EURUSD (ユーロドル, euro dollar)
+- GBPUSD (ポンドドル, pound dollar)
+- GOLD (ゴールド, gold)
+- US30 (ダウ, dow)
 """
 
 from dataclasses import dataclass

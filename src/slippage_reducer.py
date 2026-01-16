@@ -76,6 +76,10 @@ class ExecutionResult:
 class SlippageReducer:
     """Engine for reducing slippage during order execution."""
 
+    # Configuration thresholds for order splitting
+    LARGE_ORDER_THRESHOLD = 1.0  # Lots - always split orders above this
+    MEDIUM_ORDER_THRESHOLD = 0.5  # Lots - split in poor conditions above this
+
     def __init__(self, config: SlippageConfig | None = None) -> None:
         """Initialize slippage reducer.
 
@@ -283,11 +287,17 @@ class SlippageReducer:
             Tuple of (should_split, number_of_splits).
         """
         # Split large orders or in poor conditions
-        if quantity > 1.0 or (quantity > 0.5 and tier in [ExecutionTier.CAUTION, ExecutionTier.AVOID]):
+        should_split = (
+            quantity > self.LARGE_ORDER_THRESHOLD or
+            (quantity > self.MEDIUM_ORDER_THRESHOLD and
+             tier in [ExecutionTier.CAUTION, ExecutionTier.AVOID])
+        )
+
+        if should_split:
             # Calculate number of splits
             if quantity > 2.0:
                 num_splits = min(int(quantity / 0.5), 5)
-            elif quantity > 1.0:
+            elif quantity > self.LARGE_ORDER_THRESHOLD:
                 num_splits = 3
             else:
                 num_splits = 2

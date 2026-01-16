@@ -257,8 +257,9 @@ class CFDSmartEntrySystem:
             f"(tier={signal.tier.value}, confidence={signal.confidence:.2%})"
         )
 
-        # Auto-execute if high confidence
-        if signal.confidence >= 0.8 and signal.signal_type != SignalType.HOLD:
+        # Auto-execute if high confidence (configurable threshold)
+        auto_execute_threshold = self.config.get("ai_signal.auto_execute_threshold", 0.80)
+        if signal.confidence >= auto_execute_threshold and signal.signal_type != SignalType.HOLD:
             self._auto_execute_signal(signal)
 
     def _auto_execute_signal(self, signal: Any) -> None:
