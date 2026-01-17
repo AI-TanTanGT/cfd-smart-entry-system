@@ -1,0 +1,35 @@
+# Default configuration for CFD Smart Entry System
+# This file contains default settings that can be overridden by environment variables
+
+trading:
+  default_symbol: "USDJPY"
+  max_slippage: 3
+  risk_per_trade: 0.02
+  magic_number: 12345
+
+ai:
+  model_path: "./models"
+  confidence_threshold: 0.75
+  tiers:
+    - name: "fast"
+      weight: 0.3
+    - name: "medium"
+      weight: 0.4
+    - name: "deep"
+      weight: 0.3
+
+voice:
+  language: "ja-JP"
+  timeout: 5
+  commands:
+    - pattern: "買い"
+      action: "buy"
+    - pattern: "売り"
+      action: "sell"
+    - pattern: "決済"
+      action: "close"
+
+logging:
+  level: "INFO"
+  file: "./logs/trading.log"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
